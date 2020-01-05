@@ -151,7 +151,7 @@ function $(selector)
 		 */
 		each: (callback)=> {
 			if (typeof callback !== 'function') return;
-			self.elements.forEach((ele) => {
+			self.each((ele) => {
 				if (callback.call(this, ele) === false) return
 			});
 		}
