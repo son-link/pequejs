@@ -1,0 +1,43 @@
+{
+  "name": "pequejs",
+  "version": "1.0.0",
+  "description": "A small Javascript library for manipulate DOM and send AJAX requests",
+  "main": "pequejs.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "build": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/son-link/pequejs.git"
+  },
+  "keywords": [
+    "javascript",
+    "javascript-lib",
+    "ajax",
+    "DOM"
+  ],
+  "author": "Alfonso Saavedra \"Son Link\"",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/son-link/pequejs/issues"
+  },
+  "homepage": "https://github.com/son-link/pequejs#readme",
+  "devDependencies": {
+    "@itsjamie/esdoc-cli": "^0.2.0",
+    "@itsjamie/esdoc-core": "^0.2.0",
+    "@itsjamie/esdoc-standard-plugin": "^0.2.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-airbnb-es5": "^1.2.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-react": "^7.19.0",
+    "grunt": "^1.1.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-documentation": "^1.2.3"
+  },
+  "dependencies": {}
+}

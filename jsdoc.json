@@ -1,0 +1,10 @@
+{
+	"plugins": ["plugins/markdown"],
+	"source": {
+        "include": [ "pequejs.js" ]
+	},
+	"sourceType": "script",
+	"opts": {
+        "destination": "./doc/"
+    }
+}
