@@ -230,7 +230,7 @@ Get or set the value for input, textarea or select.
 
 **Parameters**
 
--   `value` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | interger)** If set change the value of the firts find element. If not return her value.
+-   `value` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number))** If set change the value of the firts find element. If not return her value.
 
 **Examples**
 

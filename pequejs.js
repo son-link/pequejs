@@ -227,7 +227,7 @@ var $ = (function () {
   /**
    * Get or set the value for input, textarea or select.
    *
-   * @param {string|interger} value If set change the value of the firts find element. If not return her value.
+   * @param {string|number} value If set change the value of the firts find element. If not return her value.
    * @example $('#modal').toggleClass('show');
    */
   Constructor.prototype.val = function (value) {
