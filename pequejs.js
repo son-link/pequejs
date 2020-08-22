@@ -26,17 +26,17 @@ var $ = (function () {
     } else if (selector === 'window') {
       this.elements = [window];
     } else {
-      this.elements = (typeof selector === 'object') ? [selector] : document.querySelectorAll(selector)
+      this.elements = (typeof selector === 'object') ? [selector] : document.querySelectorAll(selector);
     }
   };
 
   /**
-   * Instantiate a new constructor
+   * Create a new instance of the constructor
    *
    * @param {string} selector The selector to use.
    * @returns {object} The instance of the library.
    */
-  var instantiate = function (selector) {
+  var instance = function (selector) {
     return new Constructor(selector);
   };
 
@@ -58,7 +58,7 @@ var $ = (function () {
 
   /**
    * Return the text of the firs element or set the text for one or more elements.
-   * 
+   *
    * @param {string} [txt] If set change the text of the elements.
    * If not return the text of the first element found.
    * @returns {string} the HTML of the found element if html variable is not set.
@@ -74,7 +74,7 @@ var $ = (function () {
 
   /**
    * Add event to the elements.
-   * 
+   *
    * @param {string} event event (click, change, keyup, etc).
    * @param {Function} callback The callback function.
    * @returns {undefined} Returns undefined if event and callback parameters are empty.
@@ -91,7 +91,7 @@ var $ = (function () {
 
   /**
    * Display the element(s).
-   * 
+   *
    * @example $('#modal').show();
    */
   Constructor.prototype.show = function () {
@@ -102,7 +102,7 @@ var $ = (function () {
 
   /**
    *  Hide the element(s).
-   * 
+   *
    * @example $('#modal').hide();
    */
   Constructor.prototype.hide = function () {
@@ -128,6 +128,18 @@ var $ = (function () {
   };
 
   /**
+   * Remove a element(s) attribute.
+   *
+   * @param {string} name The attribute name
+   * @example $('input#name').removeAttr('disabled');
+   */
+  Constructor.prototype.removeAttr = function (name) {
+    this.each(function (ele) {
+      ele.removeAttribute(name);
+    });
+  };
+
+  /**
    * Append a text or HTML to element(s).
    *
    * @param {string} ele The text or HTML to append
@@ -141,7 +153,7 @@ var $ = (function () {
 
   /**
    * Clear all content of the element(s).
-   * 
+   *
    * @example $('#series').empty();
    */
   Constructor.prototype.empty = function () {
@@ -154,7 +166,7 @@ var $ = (function () {
 
   /**
    * Return if any element have the class name.
-   * 
+   *
    * @param {string} className The class name.
    * @returns {boolean} true if any element has the class or false if not.
    * @example $('#modal').hasClass('show');
@@ -213,6 +225,20 @@ var $ = (function () {
   };
 
   /**
+   * Get or set the value for input, textarea or select.
+   *
+   * @param {string|interger} value If set change the value of the firts find element. If not return her value.
+   * @example $('#modal').toggleClass('show');
+   */
+  Constructor.prototype.val = function (value) {
+    if (value) {
+      this.elements[0].value = value;
+    } else {
+      return this.elements[0].value;
+    }
+  };
+
+  /**
    * Iterate through every element of the collection.
    * The callback function receive the current element.
    *
@@ -231,7 +257,7 @@ var $ = (function () {
 
   /**
    * Perform an Ajax request.
-   * 
+   *
    * @param {string} url The URL to send the request.
    * @param {array} opts A array to set the options. See below.
    * @param {Fuction} opts.success A callback function when the request was successful.
@@ -297,5 +323,5 @@ var $ = (function () {
   /**
    * Return the constructor instantiation
    */
-  return instantiate;
+  return instance;
 })();

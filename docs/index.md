@@ -126,6 +126,20 @@ link = $('#mylink').attr('href');
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The attribute value of the first element found if value is not set.
 
+### removeAttr
+
+Remove a element(s) attribute.
+
+**Parameters**
+
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The attribute name
+
+**Examples**
+
+```javascript
+$('input#name').removeAttr('disabled');
+```
+
 ### append
 
 Append a text or HTML to element(s).
@@ -210,6 +224,20 @@ Toggle class on each element.
 $('#modal').toggleClass('show');
 ```
 
+### val
+
+Get or set the value for input, textarea or select.
+
+**Parameters**
+
+-   `value` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | interger)** If set change the value of the firts find element. If not return her value.
+
+**Examples**
+
+```javascript
+$('#modal').toggleClass('show');
+```
+
 ### each
 
 Iterate through every element of the collection.
@@ -260,9 +288,9 @@ $().ajax('http://localhost/api', {
 });
 ```
 
-## instantiate
+## instance
 
-Instantiate a new constructor
+Create a new instance of the constructor
 
 **Parameters**
 
@@ -270,6 +298,6 @@ Instantiate a new constructor
 
 Returns **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The instance of the library.
 
-## instantiate
+## instance
 
 Return the constructor instantiation
