@@ -31,7 +31,7 @@ Create the constructor
 
 **Parameters**
 
--   `selector` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The selector to .
+-   `selector` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The selector to use.
 
 ### html
 
@@ -76,7 +76,8 @@ Add event to the elements.
 **Parameters**
 
 -   `event` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** event (click, change, keyup, etc).
--   `callback` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** The callback function.
+-   `selector`  
+-   `callback` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** The callback function. (optional, default `null`)
 
 **Examples**
 
@@ -92,10 +93,18 @@ Returns **[undefined](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 Display the element(s).
 
+**Parameters**
+
+-   `display` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** Set the display [block, flex, inline-block, etc](<by default is block>)
+
 **Examples**
 
 ```javascript
 $('#modal').show();
+```
+
+```javascript
+$('.blocks').show('flex');
 ```
 
 ### hide
@@ -238,6 +247,41 @@ Get or set the value for input, textarea or select.
 $('#modal').toggleClass('show');
 ```
 
+### is
+
+Checks if the current set of elements match a selector and returns true if at least one of these elements matches the given arguments.
+
+**Parameters**
+
+-   `selector` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The CSS selector
+
+**Examples**
+
+```javascript
+$('input').is(':valid')
+```
+
+```javascript
+$('#accept-terms').is(':checked')
+```
+
+Returns **any** Bool
+
+### trigger
+
+Trigger a event for the element.
+
+**Parameters**
+
+-   `eventname`  
+-   `event` **eventname** The event to trigger
+
+**Examples**
+
+```javascript
+$('#myform').trigger('submit')
+```
+
 ### each
 
 Iterate through every element of the collection.
@@ -286,6 +330,54 @@ $().ajax('http://localhost/api', {
    console.dir(response);
  }
 });
+```
+
+### get
+
+Perform an GET request. This is a alias for $().ajax.
+
+**Parameters**
+
+-   `url` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The URL to send the request.
+-   `data` **([object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** A object with the variables and her values to send. If is a function take this as the callback.
+-   `callback` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** \[] The callback function when the request success or error.
+
+**Examples**
+
+```javascript
+$().get('http://localhost/api?key=123456789',
+ function(response) {
+   console.dir(response);
+ }
+);
+```
+
+```javascript
+$().get('http://localhost/api', {key: '123456789'},
+ function(response) {
+   console.dir(response);
+ }
+);
+```
+
+### post
+
+Perform an POST request. This is a alias for $().ajax.
+
+**Parameters**
+
+-   `url` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The URL to send the request.
+-   `data` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** A object with the variables and her values to send. If is a function take this as the callback.
+-   `callback` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** \[] The callback function when the request success or error.
+
+**Examples**
+
+```javascript
+$().post('http://localhost/api', {key: '123456789'},
+ function(response) {
+   console.dir(response);
+ }
+);
 ```
 
 ## instance

@@ -18,7 +18,7 @@ var $ = (function () {
   /**
    * Create the constructor
    *
-   * @param {string} selector The selector to .
+   * @param {string} selector The selector to use.
    */
   var Constructor = function (selector) {
     if (selector === 'document') {
@@ -82,21 +82,37 @@ var $ = (function () {
    *  alert('You clicked');
    * });
    */
-  Constructor.prototype.on = function (event, callback) {
-    if (!event && !callback) return 'undefined';
-    this.each(function (ele) {
-      ele.addEventListener(event, callback);
-    });
+  Constructor.prototype.on = function (event, selector, callback = null) {
+    */
+    if (typeof selector === 'string' && typeof callback === 'function') {
+      document.addEventListener(event, function (e) {
+        for (var target = e.target; target && target !== this; target = target.parentNode) {
+          if (target.matches(selector)) {
+            callback.call(target, e);
+            break;
+          }
+        }
+      }, false);
+    } else if (typeof selector === 'function') {
+      this.each(function (ele) {
+        ele.addEventListener(event, selector);
+      });
+    } else {
+      return false;
+    }
   };
 
   /**
    * Display the element(s).
    *
+   * @param {string} [display] Set the display [block, flex, inline-block, etc] (by default is block)
+   *
    * @example $('#modal').show();
+   * @example $('.blocks').show('flex');
    */
-  Constructor.prototype.show = function () {
+  Constructor.prototype.show = function (display) {
     this.each(function (ele) {
-      ele.style.display = 'block';
+      ele.style.display = (display) ? display : 'block';
     });
   };
 
@@ -120,7 +136,7 @@ var $ = (function () {
    * @example $('#mylink').attr('href', 'https://google.es');
    * link = $('#mylink').attr('href');
    */
-  Constructor.prototype.attr = function (name, value) {
+  Constructor.prototype.attr = function (name, value = null) {
     if (value === null) return this.elements[0].getAttribute(name);
     this.each(function (ele) {
       ele.setAttribute(name, value);
@@ -239,6 +255,29 @@ var $ = (function () {
   };
 
   /**
+   * Checks if the current set of elements match a selector and returns true if at least one of these elements matches the given arguments.
+   * @param {String} selector The CSS selector
+   * @returns Bool
+   * @example $('input').is(':valid')
+   * @example $('#accept-terms').is(':checked')
+   */
+  Constructor.prototype.is = function (selector) {
+    var ele = this.elements[0];
+    return (ele.matches || ele.matchesSelector || ele.msMatchesSelector || ele.mozMatchesSelector || ele.webkitMatchesSelector || ele.oMatchesSelector).call(ele, selector);
+  };
+
+  /**
+   * Trigger a event for the element.
+   * @param {eventname} event The event to trigger
+   * @example $('#myform').trigger('submit')
+   */
+  Constructor.prototype.trigger = function (eventname) {
+    var ele = this.elements[0];
+    var myevent = new Event(eventname);
+    ele.dispatchEvent(myevent);
+  };
+
+  /**
    * Iterate through every element of the collection.
    * The callback function receive the current element.
    *
@@ -285,23 +324,26 @@ var $ = (function () {
     // Set default options variables
     if (!opts.type) opts.type = 'GET';
     else opts.type = opts.type.toUpperCase();
-    if (!opts.contentType) opts.contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
     if (!opts.dataType) opts.dataType = 'json';
     if (!opts.async) opts.async = true;
 
     var _url = url;
     var data = [];
     if (opts.data) {
-      Object.keys(opts.data).map(function (key) {
-        data.push(key + '=' + encodeURIComponent(opts.data[key]));
-      });
-      data = data.join('&');
+      if (opts.type === 'GET') {
+        Object.keys(opts.data).map(function (key) {
+          data.push(key + '=' + encodeURIComponent(opts.data[key]));
+        });
+        data = data.join('&');
+      } else {
+        data = opts.data;
+      }
     }
 
     var request = new XMLHttpRequest();
     if (opts.type === 'GET') _url += '?' + data;
     request.open(opts.type, _url, opts.async);
-    request.setRequestHeader('Content-Type', opts.contentType);
+    if (opts.contentType) request.setRequestHeader('Content-Type', opts.contentType);
 
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
@@ -318,6 +360,74 @@ var $ = (function () {
 
     if (data && opts.type !== 'GET') request.send(data);
     else request.send();
+  };
+
+  /**
+   * Perform an GET request. This is a alias for $().ajax.
+   *
+   * @param {string} url The URL to send the request.
+   * @param {object|Function} data A object with the variables and her values to send. If is a function take this as the callback.
+   * @param {function} callback [] The callback function when the request success or error.
+   *
+   * @example $().get('http://localhost/api?key=123456789',
+   *  function(response) {
+   *    console.dir(response);
+   *  }
+   * );
+   * @example $().get('http://localhost/api', {key: '123456789'},
+   *  function(response) {
+   *    console.dir(response);
+   *  }
+   * );
+   */
+  Constructor.prototype.get = function (url, data, callback) {
+    var opts = {
+      type: 'GET'
+    };
+    if (typeof (data) === 'function') {
+      opts.success = function (resp) {
+        return data(resp);
+      };
+      opts.error = function () {
+        return data(false);
+      };
+    } else {
+      opts.data = data;
+      opts.success = function (resp) {
+        if (typeof (callback) === 'function') callback(resp);
+      };
+      opts.error = function () {
+        if (typeof (callback) === 'function') callback(false);
+      };
+    }
+    this.ajax(url, opts);
+  };
+
+  /**
+   * Perform an POST request. This is a alias for $().ajax.
+   *
+   * @param {string} url The URL to send the request.
+   * @param {object} data A object with the variables and her values to send. If is a function take this as the callback.
+   * @param {function} callback [] The callback function when the request success or error.
+   * @example $().post('http://localhost/api', {key: '123456789'},
+   *  function(response) {
+   *    console.dir(response);
+   *  }
+   * );
+   */
+  Constructor.prototype.post = function (url, data, callback) {
+    if (!url || !data || !callback) return false;
+    var opts = {
+      type: 'POST',
+      data: data,
+      success: function (resp) {
+        if (typeof (callback) === 'function') callback(resp);
+      },
+      error: function () {
+        if (typeof (callback) === 'function') callback(false);
+      }
+    };
+    this.ajax(url, opts);
   };
 
   /**
