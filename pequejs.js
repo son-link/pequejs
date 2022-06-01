@@ -83,7 +83,6 @@ var $ = (function () {
    * });
    */
   Constructor.prototype.on = function (event, selector, callback = null) {
-    */
     if (typeof selector === 'string' && typeof callback === 'function') {
       document.addEventListener(event, function (e) {
         for (var target = e.target; target && target !== this; target = target.parentNode) {
