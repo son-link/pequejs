@@ -18,6 +18,10 @@ $(document)
 $('input#username')
 ```
 
+```javascript
+$('a', this)
+```
+
 Returns **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** PequeJS object.
 
 **Meta**
@@ -32,6 +36,7 @@ Create the constructor
 **Parameters**
 
 -   `selector` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The selector to use.
+-   `parent` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** The father of the element. This is useful, for example, if you are looking for a class that is inside an element, and not outside it. (optional, default `null`)
 
 ### html
 
@@ -76,8 +81,8 @@ Add event to the elements.
 **Parameters**
 
 -   `event` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** event (click, change, keyup, etc).
--   `selector`  
--   `callback` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** The callback function. (optional, default `null`)
+-   `selector` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** If it is a string, add the event to the element(s) inside the parent, especially if the content is automatically generated. If passed a function it does the same as the callback parameter.
+-   `callback` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** The callback function. (optional, default `null`)
 
 **Examples**
 
@@ -95,7 +100,7 @@ Display the element(s).
 
 **Parameters**
 
--   `display` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** Set the display [block, flex, inline-block, etc](<by default is block>)
+-   `display` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** Set the display [block, flex, inline-block, etc] (optional, default `'block'`)
 
 **Examples**
 
@@ -124,7 +129,7 @@ Set a element attribute or return the attribute of the firts element found.
 **Parameters**
 
 -   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The attribute name
--   `value` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number))?** The value for the attribute.
+-   `value` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number))?** The value for the attribute. (optional, default `null`)
 
 **Examples**
 
@@ -239,7 +244,7 @@ Get or set the value for input, textarea or select.
 
 **Parameters**
 
--   `value` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number))** If set change the value of the firts find element. If not return her value.
+-   `value` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number))?** If set change the value of the firts find element. If not return her value.
 
 **Examples**
 
@@ -387,6 +392,7 @@ Create a new instance of the constructor
 **Parameters**
 
 -   `selector` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The selector to use.
+-   `parent` **any?**  (optional, default `null`)
 
 Returns **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The instance of the library.
 

@@ -11,6 +11,7 @@
  * @returns {object} PequeJS object.
  * @example $(document)
  * @example $('input#username')
+ * @example $('a', this)
  */
 var $ = (function () {
   'use strict';
@@ -19,14 +20,30 @@ var $ = (function () {
    * Create the constructor
    *
    * @param {string} selector The selector to use.
+   * @param {string} parent The father of the element. This is useful, for example, if you are looking for a class that is inside an element, and not outside it.
    */
-  var Constructor = function (selector) {
-    if (selector === 'document') {
-      this.elements = [document];
-    } else if (selector === 'window') {
-      this.elements = [window];
-    } else {
-      this.elements = (typeof selector === 'object') ? [selector] : document.querySelectorAll(selector);
+  var Constructor = function (selector, parent = null) {
+    if (!parent) {
+      if (selector === 'document') {
+        this.elements = [document];
+        return;
+      } else if (selector === 'window') {
+        this.elements = [window];
+        return;
+      } else {
+        this.elements = (typeof selector === 'object') ? [selector] : document.querySelectorAll(selector);
+        return;
+      }
+    }
+
+    if (parent && typeof parent === 'object') {
+      [].forEach.call(parent.children, (el, i) => {
+        let ele = new Constructor(el);
+        if (ele.is(selector)) {
+          this.elements = document.querySelectorAll(selector);
+          return false;           
+        }
+      });
     }
   };
 
@@ -36,8 +53,8 @@ var $ = (function () {
    * @param {string} selector The selector to use.
    * @returns {object} The instance of the library.
    */
-  var instance = function (selector) {
-    return new Constructor(selector);
+  var instance = function (selector, parent = null) {
+    return new Constructor(selector, parent);
   };
 
   /**
@@ -76,7 +93,8 @@ var $ = (function () {
    * Add event to the elements.
    *
    * @param {string} event event (click, change, keyup, etc).
-   * @param {Function} callback The callback function.
+   * @param {string | function} selector If it is a string, add the event to the element(s) inside the parent, especially if the content is automatically generated. If passed a function it does the same as the callback parameter.
+   * @param {function} callback The callback function.
    * @returns {undefined} Returns undefined if event and callback parameters are empty.
    * @example $('button').on('click', function() {
    *  alert('You clicked');
@@ -104,14 +122,14 @@ var $ = (function () {
   /**
    * Display the element(s).
    *
-   * @param {string} [display] Set the display [block, flex, inline-block, etc] (by default is block)
+   * @param {string} display Set the display [block, flex, inline-block, etc]
    *
    * @example $('#modal').show();
    * @example $('.blocks').show('flex');
    */
-  Constructor.prototype.show = function (display) {
+  Constructor.prototype.show = function (display = 'block') {
     this.each(function (ele) {
-      ele.style.display = (display) ? display : 'block';
+      ele.style.display = display;
     });
   };
 
@@ -130,7 +148,7 @@ var $ = (function () {
    * Set a element attribute or return the attribute of the firts element found.
    *
    * @param {string} name The attribute name
-   * @param {string|number} [value] The value for the attribute.
+   * @param {string|number} value The value for the attribute.
    * @returns {string} The attribute value of the first element found if value is not set.
    * @example $('#mylink').attr('href', 'https://google.es');
    * link = $('#mylink').attr('href');
@@ -242,7 +260,7 @@ var $ = (function () {
   /**
    * Get or set the value for input, textarea or select.
    *
-   * @param {string|number} value If set change the value of the firts find element. If not return her value.
+   * @param {string|number} [value] If set change the value of the firts find element. If not return her value.
    * @example $('#modal').toggleClass('show');
    */
   Constructor.prototype.val = function (value) {

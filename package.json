@@ -1,6 +1,6 @@
 {
   "name": "pequejs",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A small Javascript library for manipulate DOM and send AJAX requests",
   "main": "pequejs.js",
   "directories": {
